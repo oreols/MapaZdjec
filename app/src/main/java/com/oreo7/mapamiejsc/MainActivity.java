@@ -16,12 +16,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         EditText editText = findViewById(R.id.editTextText);
-        String text = editText.getText().toString();
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String text = editText.getText().toString();
                 openMapActivity();
             }
         });
