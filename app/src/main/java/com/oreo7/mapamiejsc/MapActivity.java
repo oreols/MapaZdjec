@@ -59,6 +59,6 @@ public class MapActivity extends AppCompatActivity {
 
 
         mapController = mapView.getController();
-        mapController.setZoom(15.0); // Ustaw początkowy poziom przybliżenia
+        mapController.setZoom(15.0);
     }
 }
