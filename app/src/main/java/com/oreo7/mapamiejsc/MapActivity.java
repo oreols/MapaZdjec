@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -18,11 +20,17 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 
 public class MapActivity extends AppCompatActivity {
+    private DrawerLayout drawer;
     private MapView mapView;
     private IMapController mapController;
 
@@ -33,6 +41,15 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         Configuration.getInstance().load(this, getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE));
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -60,5 +77,13 @@ public class MapActivity extends AppCompatActivity {
 
         mapController = mapView.getController();
         mapController.setZoom(15.0);
+    }
+
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 }
