@@ -28,8 +28,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
 
-public class MapActivity extends AppCompatActivity {
+
+public class MapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private MapView mapView;
     private IMapController mapController;
@@ -46,6 +48,9 @@ public class MapActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -60,6 +65,7 @@ public class MapActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
+
 
 
         mapView = findViewById(R.id.mapview);
@@ -77,6 +83,25 @@ public class MapActivity extends AppCompatActivity {
 
         mapController = mapView.getController();
         mapController.setZoom(15.0);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item){
+        int itemId = item.getItemId();
+        if (itemId == R.id.nav_item1) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GlownaFragment()).commit();
+        } else if (itemId == R.id.nav_item2) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ZapisaneFragment()).commit();
+        } else if (itemId == R.id.nav_item3) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KategorieFragment()).commit();
+        } else if (itemId == R.id.nav_item4) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GaleriaZdjecFragment()).commit();
+    }
+
+
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     public void onBackPressed() {
