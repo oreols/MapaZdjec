@@ -56,6 +56,10 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GlownaFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_item1);
+        }
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
