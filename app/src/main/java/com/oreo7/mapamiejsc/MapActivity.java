@@ -9,7 +9,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
+import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -19,6 +24,7 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -35,6 +41,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
     private DrawerLayout drawer;
     private MapView mapView;
     private IMapController mapController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +63,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GlownaFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_item1);
         }
@@ -68,8 +75,13 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
                 Log.v(TAG, "Permission is revoked");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG, "Permission is granted");
+            } else {
+                Log.v(TAG, "Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
         }
-
 
 
         mapView = findViewById(R.id.mapview);
@@ -84,9 +96,18 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         mapView.getOverlays().add(myLocationOverlay);
 
 
-
         mapController = mapView.getController();
         mapController.setZoom(15.0);
+
+        ImageButton showLocationButton = findViewById(R.id.mojalokalizacja);
+        showLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myLocationOverlay.enableMyLocation();
+                myLocationOverlay.enableFollowLocation();
+                mapView.getOverlays().add(myLocationOverlay);
+            }
+        });
     }
 
     @Override
