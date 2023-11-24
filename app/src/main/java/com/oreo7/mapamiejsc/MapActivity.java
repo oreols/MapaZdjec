@@ -79,7 +79,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
                 Log.v(TAG, "Permission is granted");
             } else {
                 Log.v(TAG, "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
             }
         }
 
