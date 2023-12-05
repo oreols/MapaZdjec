@@ -28,6 +28,10 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false" />
         <activity
+            android:name=".StworzKategorieFragment"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
