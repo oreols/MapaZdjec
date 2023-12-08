@@ -43,6 +43,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
     private IMapController mapController;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +122,11 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KategorieFragment()).commit();
         } else if (itemId == R.id.nav_item4) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new GaleriaZdjecFragment()).commit();
+        }else if (itemId == R.id.powrotbutton){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KategorieFragment()).commit();
+
     }
+
 
 
 
