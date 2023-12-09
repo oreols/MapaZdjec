@@ -1,6 +1,7 @@
 package com.oreo7.mapamiejsc;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,7 +12,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // Table columns
     public static final String _ID = "_id";
-    public static final String SUBJECT = "subject";
+    public static final String NAZWA = "nazwa";
     public static final String OPIS = "opis";
 
     // Database Information
@@ -22,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // Creating table query
     private static final String CREATE_TABLE = "create table " + TABLE_NAME + "(" + _ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + SUBJECT + " TEXT NOT NULL, " + OPIS + " TEXT);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAZWA + " TEXT NOT NULL, " + OPIS + " TEXT);";
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -37,5 +38,21 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+    }
+
+    public boolean dodaj(KategoriaModel kategoriaModel){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(NAZWA, kategoriaModel.getName());
+        cv.put(OPIS, kategoriaModel.getOpis());
+        cv.put(_ID, kategoriaModel.getId());
+
+        long insert = db.insert(TABLE_NAME, null, cv);
+        if(insert == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 }
