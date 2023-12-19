@@ -49,9 +49,10 @@ public class StworzKategorieFragment extends AppCompatActivity {
             public void onClick(View view){
                 String nazwaString = nazwa.getText().toString();
                 String opisString = opis.getText().toString();
-                KategoriaModel kategoriaModel = new KategoriaModel(0, nazwaString, opisString);
                 DBHelper dbHelper = new DBHelper(StworzKategorieFragment.this);
+                KategoriaModel kategoriaModel = new KategoriaModel(nazwaString, opisString);
                 boolean success = dbHelper.dodaj(kategoriaModel);
+
             }
         });
     }

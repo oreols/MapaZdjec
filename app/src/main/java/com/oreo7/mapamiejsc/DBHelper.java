@@ -46,7 +46,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cv.put(NAZWA, kategoriaModel.getName());
         cv.put(OPIS, kategoriaModel.getOpis());
-        cv.put(_ID, kategoriaModel.getId());
 
         long insert = db.insert(TABLE_NAME, null, cv);
         if(insert == -1){

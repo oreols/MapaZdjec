@@ -3,12 +3,12 @@ package com.oreo7.mapamiejsc;
 
 
 public class KategoriaModel{
-    private int id;
+    private long id;
     private String name;
     private String opis;
 
-    public KategoriaModel(int id, String name, String opis){
-        this.id = id;
+    public KategoriaModel(String name, String opis){
+        this.id = -1;
         this.name = name;
         this.opis = opis;
     }
@@ -23,10 +23,10 @@ public class KategoriaModel{
     }
 
 
-    public int getId(){
+    public long getId(){
         return id;
     }
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
     }
 
