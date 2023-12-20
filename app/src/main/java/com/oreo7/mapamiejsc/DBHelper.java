@@ -3,8 +3,12 @@ package com.oreo7.mapamiejsc;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     // Table Name
@@ -53,5 +57,39 @@ public class DBHelper extends SQLiteOpenHelper {
         }else{
             return true;
         }
+
     }
+    public boolean onDelete(KategoriaModel kategoriaModel){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryString = "DELETE FROM " + TABLE_NAME + " WHERE " + _ID + " = " + kategoriaModel.getId();
+
+        Cursor cursor = db.rawQuery(queryString, null);
+        if(cursor.moveToFirst()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    public List<KategoriaModel> wyswietlWszystkie(){
+        List<KategoriaModel> zwrocListe = new ArrayList<>();
+        String queryString = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if(cursor.moveToFirst()){
+            do{
+                int kategoriaId = cursor.getInt(0);
+                String kategoriaNazwa = cursor.getString(1);
+                String kategoriaOpis = cursor.getString(2);
+
+                KategoriaModel kategoriaModel = new KategoriaModel(kategoriaNazwa, kategoriaOpis);
+                zwrocListe.add(kategoriaModel);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return zwrocListe;
+    }
+
 }

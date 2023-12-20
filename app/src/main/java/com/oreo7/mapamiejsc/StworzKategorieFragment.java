@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -52,7 +53,9 @@ public class StworzKategorieFragment extends AppCompatActivity {
                 DBHelper dbHelper = new DBHelper(StworzKategorieFragment.this);
                 KategoriaModel kategoriaModel = new KategoriaModel(nazwaString, opisString);
                 boolean success = dbHelper.dodaj(kategoriaModel);
-
+                MapActivity mapActivity = new MapActivity();
+                Toast toast = Toast.makeText(mapActivity,  "Dodano kategorie", Toast.LENGTH_SHORT);
+                wroc();
             }
         });
     }
