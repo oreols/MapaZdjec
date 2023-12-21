@@ -1,11 +1,13 @@
 package com.oreo7.mapamiejsc;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,7 +15,6 @@ import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
@@ -29,11 +30,17 @@ public class KategorieFragment extends Fragment {
         View view = inflater.inflate(R.layout.kategorie, container, false);
 
         button = view.findViewById(R.id.kategorieButton);
-        Context context = this.getActivity();
+        listView = view.findViewById(R.id.lista);
+        Context context = this.getActivity().getBaseContext();
+        Activity activity = getActivity();
         DBHelper dbHelper = new DBHelper(context);
 
         List<KategoriaModel> everyone = dbHelper.wyswietlWszystkie();
-        Toast toast = Toast.makeText(context, everyone.toString(), Toast.LENGTH_SHORT);
+        ArrayAdapter<KategoriaModel> arrayAdapter = new ArrayAdapter<>(context, R.layout.list_item_1, everyone);
+
+        listView.setAdapter(arrayAdapter);
+
+
 
 
 
