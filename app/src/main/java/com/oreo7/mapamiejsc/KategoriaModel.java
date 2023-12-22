@@ -7,11 +7,12 @@ public class KategoriaModel{
     private String name;
     private String opis;
 
-    public KategoriaModel(String name, String opis){
-        this.id = -1;
+    public KategoriaModel(long id, String name, String opis){
+        this.id = id;
         this.name = name;
         this.opis = opis;
     }
+
 
     @Override
     public String toString() {

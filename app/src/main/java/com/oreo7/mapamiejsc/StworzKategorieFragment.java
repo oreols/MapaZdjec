@@ -51,7 +51,7 @@ public class StworzKategorieFragment extends AppCompatActivity {
                 String nazwaString = nazwa.getText().toString();
                 String opisString = opis.getText().toString();
                 DBHelper dbHelper = new DBHelper(StworzKategorieFragment.this);
-                KategoriaModel kategoriaModel = new KategoriaModel(nazwaString, opisString);
+                KategoriaModel kategoriaModel = new KategoriaModel(-1, nazwaString, opisString);
                 boolean success = dbHelper.dodaj(kategoriaModel);
                 MapActivity mapActivity = new MapActivity();
                 Toast toast = Toast.makeText(mapActivity,  "Dodano kategorie", Toast.LENGTH_SHORT);

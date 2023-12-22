@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 String kategoriaNazwa = cursor.getString(1);
                 String kategoriaOpis = cursor.getString(2);
 
-                KategoriaModel kategoriaModel = new KategoriaModel(kategoriaNazwa, kategoriaOpis);
+                KategoriaModel kategoriaModel = new KategoriaModel(kategoriaId, kategoriaNazwa, kategoriaOpis);
                 zwrocListe.add(kategoriaModel);
             } while (cursor.moveToNext());
         }
