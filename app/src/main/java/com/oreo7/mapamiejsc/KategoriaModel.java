@@ -1,6 +1,9 @@
 package com.oreo7.mapamiejsc;
 
 
+import android.graphics.drawable.VectorDrawable;
+import android.media.Image;
+import android.widget.ImageButton;
 
 public class KategoriaModel{
     private long id;
@@ -14,13 +17,10 @@ public class KategoriaModel{
     }
 
 
+
     @Override
     public String toString() {
-        return "KategoriaModel{" +
-                "id=" + id +
-                ", name='" + name +
-                "opis=" + opis + '\'' +
-                '}';
+        return name + "   " +  opis;
     }
 
 
