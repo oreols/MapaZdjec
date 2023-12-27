@@ -16,11 +16,7 @@ public class KategoriaModel{
 
     @Override
     public String toString() {
-        return "KategoriaModel{" +
-                "id=" + id +
-                ", name='" + name +
-                "opis=" + opis + '\'' +
-                '}';
+        return name + "   " +  opis;
     }
 
 

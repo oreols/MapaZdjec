@@ -4,6 +4,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
     private DrawerLayout drawer;
     private MapView mapView;
     private IMapController mapController;
+    private Button dodajButton;
 
 
 
@@ -103,12 +105,23 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         mapController.setZoom(15.0);
 
         ImageButton showLocationButton = findViewById(R.id.mojalokalizacja);
+        View inflatedView = getLayoutInflater().inflate(R.layout.glowna, null);
+        dodajButton = inflatedView.findViewById(R.id.dodaj);
+
         showLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myLocationOverlay.enableMyLocation();
                 myLocationOverlay.enableFollowLocation();
                 mapView.getOverlays().add(myLocationOverlay);
+            }
+        });
+        dodajButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MapActivity.this, AparatActivity.class);
+                startActivity(intent);
+
             }
         });
     }
