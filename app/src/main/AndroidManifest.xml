@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -39,6 +40,10 @@
             android:exported="false" />
         <activity
             android:name=".AparatActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".DodajPinezkeActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false" />
         <activity

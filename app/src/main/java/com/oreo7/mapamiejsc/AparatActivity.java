@@ -1,10 +1,19 @@
 package com.oreo7.mapamiejsc;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.ContactsContract;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.Manifest;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -25,14 +34,24 @@ import androidx.camera.core.AspectRatio;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
 public class AparatActivity extends AppCompatActivity {
-    ImageButton camerabtn, flashbtn, flipbtn;
+    ImageButton camerabtn, flashbtn, flipbtn, powrotbtn, skonczbtn;
     private PreviewView previewView;
     private Toast toast;
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
+    String nazwaPliku;
+    List<String> listaPlikow = new ArrayList<String>();
+    List<String> tempListaPlikow = new ArrayList<String>();
+
+    List<File> tempList;
+    List<File> staticList;
+    private int length = -1;
+    static final String appDirectoryName = "Mapa Zdjec";
     private final ActivityResultLauncher<String> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean result) {
@@ -50,6 +69,19 @@ public class AparatActivity extends AppCompatActivity {
         camerabtn = findViewById(R.id.camerabutton);
         flashbtn = findViewById(R.id.flashbutton);
         flipbtn = findViewById(R.id.flipbutton);
+        skonczbtn = findViewById(R.id.skonczaparat);
+        powrotbtn = findViewById(R.id.powrotaparat);
+
+
+        // View inflatedView = getLayoutInflater().inflate(R.layout.dodajpinezke, null);
+        // ListView listView = (ListView) inflatedView.findViewById(R.id.listazdjec);
+        // List<String> items = new ArrayList<String>();
+        // items.add("Element 1");
+        // items.add("Element 2");
+        // items.add("Element 3");
+        // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+
+        // listView.setAdapter(adapter);
 
         if (ContextCompat.checkSelfPermission(AparatActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             activityResultLauncher.launch(Manifest.permission.CAMERA);
@@ -96,9 +128,46 @@ public class AparatActivity extends AppCompatActivity {
                             activityResultLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                         }
                         takePicture(imageCapture);
+                        length += 1;
                     }
                 });
+                powrotbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tempListaPlikow.clear();
+                        Intent intent = new Intent(AparatActivity.this, MapActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                skonczbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        setContentView(R.layout.dodajpinezke);
+                        ListView listView = findViewById(R.id.listazdjec);
+                        List<String> items = new ArrayList<String>();
+                        String path;
+                        items = tempListaPlikow;
+                        //for(int i=0; i<items.size(); i++){
+                            //path = items.get(i);
+                            //if(path.exists()){
 
+                              //  Bitmap myBitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
+
+                                //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
+
+                                //myImage.setImageBitmap(myBitmap);
+
+                            //}
+
+                        //}
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(AparatActivity.this, android.R.layout.simple_list_item_1, items);
+
+                        listView.setAdapter(adapter);
+                        // listaPlikow = tempListaPlikow;
+                        //Intent intent = new Intent(AparatActivity.this, DodajPinezkeActivity.class);
+                        //startActivity(intent);
+                    }
+                });
                 flashbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -114,6 +183,10 @@ public class AparatActivity extends AppCompatActivity {
     }
     public void takePicture(ImageCapture imageCapture) {
         final File file = new File(getExternalFilesDir(null), System.currentTimeMillis() + ".jpg");
+        nazwaPliku = file.toString();
+        tempListaPlikow.add(nazwaPliku);
+
+
         ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
         imageCapture.takePicture(outputFileOptions, Executors.newCachedThreadPool(), new ImageCapture.OnImageSavedCallback() {
             @Override
@@ -153,7 +226,7 @@ public class AparatActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(AparatActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AparatActivity.this, "Latarka niestety nie działa", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -166,6 +239,8 @@ public class AparatActivity extends AppCompatActivity {
         }
         return AspectRatio.RATIO_16_9;
     }
+        
 }
+
 
 
