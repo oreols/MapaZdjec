@@ -3,13 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-
-    <ListView
+    <!-- TextView z tekstem -->
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="33dp"
-        android:id="@+id/listazdjec"/>
+        android:layout_height="wrap_content"
+        android:text="Twój tekst tutaj"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="16dp" />
+
+    <!-- ListView -->
+    <ListView
+        android:id="@+id/listazdjec"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/zapiszpinezke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="16dp"
+        android:text="Przycisk" />
+
 </LinearLayout>
