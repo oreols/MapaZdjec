@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -41,7 +42,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    private MapView mapView;
+    MapView mapView;
     private IMapController mapController;
     private Button dodajButton;
 
@@ -103,6 +104,11 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
 
         mapController = mapView.getController();
         mapController.setZoom(15.0);
+        AparatActivity aparatActivity = new AparatActivity();
+        if((aparatActivity.latitude) != 0 || aparatActivity.longitude != 0 ) {
+            aparatActivity.dodajMarker(mapView, aparatActivity.latitude, aparatActivity.longitude);
+        }
+
 
         ImageButton showLocationButton = findViewById(R.id.mojalokalizacja);
         View inflatedView = getLayoutInflater().inflate(R.layout.glowna, null);

@@ -1,5 +1,6 @@
 package com.oreo7.mapamiejsc;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -35,9 +36,14 @@ import androidx.camera.core.AspectRatio;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
@@ -48,6 +54,9 @@ public class AparatActivity extends AppCompatActivity {
     private Toast toast;
     private View inflatedView;
     private View view;
+    static double latitude;
+    static double longitude;
+    private MapActivity mapActivity;
     List<String> items;
     List<ImageView> zdjecia;
     private ImageView imageView;
@@ -190,7 +199,13 @@ public class AparatActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 Intent intent = new Intent(AparatActivity.this, MapActivity.class);
+                                latitude = 49.579459;
+                                longitude = 20.729964;
                                 startActivity(intent);
+
+
+
+
                             }
                         });
                     }
@@ -274,6 +289,14 @@ public class AparatActivity extends AppCompatActivity {
             return AspectRatio.RATIO_4_3;
         }
         return AspectRatio.RATIO_16_9;
+    }
+    public void dodajMarker(MapView mapView, Double latitude, Double longitude) {
+        GeoPoint geoPoint = new GeoPoint(this.latitude, this.longitude);
+        Marker marker = new Marker(mapView);
+        marker.setPosition(geoPoint);
+        mapView.getOverlays().add(marker);
+        mapView.invalidate();
+
     }
 
 }
