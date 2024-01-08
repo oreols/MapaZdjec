@@ -126,8 +126,9 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
             myLocationOverlay.runOnFirstFix(() -> {
                 latitude = myLocationOverlay.getMyLocation().getLatitude();
                 longitude = myLocationOverlay.getMyLocation().getLongitude();
+                aparatActivity.dodajMarker(mapView, latitude, longitude);
             });
-            aparatActivity.dodajMarker(mapView, latitude, longitude);
+
         }
 
         mapController = mapView.getController();
