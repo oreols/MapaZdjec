@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
@@ -47,15 +48,16 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
-public class AparatActivity extends AppCompatActivity {
+public class AparatActivity extends AppCompatActivity{
     ImageButton camerabtn, flashbtn, flipbtn, powrotbtn, skonczbtn;
     Button dodajbtn;
     private PreviewView previewView;
     private Toast toast;
     private View inflatedView;
     private View view;
-    static double latitude;
-    static double longitude;
+    double latitude;
+    static Boolean czySkonczone = false;
+    double longitude;
     private MapActivity mapActivity;
     List<String> items;
     List<ImageView> zdjecia;
@@ -199,9 +201,8 @@ public class AparatActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 Intent intent = new Intent(AparatActivity.this, MapActivity.class);
-                                latitude = 49.579459;
-                                longitude = 20.729964;
                                 startActivity(intent);
+                                czySkonczone = true;
 
 
 
@@ -291,7 +292,7 @@ public class AparatActivity extends AppCompatActivity {
         return AspectRatio.RATIO_16_9;
     }
     public void dodajMarker(MapView mapView, Double latitude, Double longitude) {
-        GeoPoint geoPoint = new GeoPoint(this.latitude, this.longitude);
+        GeoPoint geoPoint = new GeoPoint(latitude, longitude);
         Marker marker = new Marker(mapView);
         marker.setPosition(geoPoint);
         mapView.getOverlays().add(marker);

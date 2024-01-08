@@ -6,6 +6,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +45,12 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    MapView mapView;
+    private double latitude;
+    private double longitude;
+    private GeoPoint kordy;
+    static MapView mapView;
+    static MyLocationNewOverlay myLocationOverlay;
+    private LocationManager locationManager;
     private IMapController mapController;
     private Button dodajButton;
 
@@ -96,18 +104,37 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         mapView.setMultiTouchControls(true);
 
 
-        MyLocationNewOverlay myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mapView);
+        myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mapView);
         myLocationOverlay.enableMyLocation();
         myLocationOverlay.enableFollowLocation();
         mapView.getOverlays().add(myLocationOverlay);
 
 
+
+        AparatActivity aparatActivity = new AparatActivity();
+        if(aparatActivity.czySkonczone) {
+            //myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mapView);
+            //myLocationOverlay.enableMyLocation();
+            //myLocationOverlay.getMyLocation()
+            //latitude = this.myLocationOverlay.getMyLocationProvider().getLastKnownLocation().getLatitude();
+            //longitude = this.myLocationOverlay.getMyLocationProvider().getLastKnownLocation().getLongitude();
+            //latitude = myLocationOverlay.getMyLocation().getLatitude();
+            //longitude = myLocationOverlay.getMyLocation().getLongitude();
+            //kordy = myLocationOverlay.getMyLocation();
+            //String kordystring = kordy.toString();
+            //Log.d(MapActivity.ACTIVITY_SERVICE, kordystring);
+            myLocationOverlay.runOnFirstFix(() -> {
+                latitude = myLocationOverlay.getMyLocation().getLatitude();
+                longitude = myLocationOverlay.getMyLocation().getLongitude();
+            });
+            aparatActivity.dodajMarker(mapView, latitude, longitude);
+        }
+
         mapController = mapView.getController();
         mapController.setZoom(15.0);
-        AparatActivity aparatActivity = new AparatActivity();
-        if((aparatActivity.latitude) != 0 || aparatActivity.longitude != 0 ) {
-            aparatActivity.dodajMarker(mapView, aparatActivity.latitude, aparatActivity.longitude);
-        }
+
+
+
 
 
         ImageButton showLocationButton = findViewById(R.id.mojalokalizacja);
@@ -162,4 +189,5 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
             super.onBackPressed();
         }
     }
+
 }
