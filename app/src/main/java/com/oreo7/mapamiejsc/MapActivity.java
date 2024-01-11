@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,14 +43,26 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
 
 public class MapActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private double latitude;
     private double longitude;
     private GeoPoint kordy;
+    static ArrayMap<Double, Double> koordynaty;
+    static ArrayList<Double> latitudes;
+    static ArrayList<Double> longitudes;
+    static int rozmiar;
     static MapView mapView;
     static MyLocationNewOverlay myLocationOverlay;
+    static int LokalizacjaId1;
+    static String nazwa1;
+    static double latitude1;
+    static double longitude1;
     private LocationManager locationManager;
     private IMapController mapController;
     private Button dodajButton;
@@ -59,6 +72,9 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rozmiar = 0;
+        latitudes = new ArrayList<Double>();
+        longitudes = new ArrayList<Double>();
 
         setContentView(R.layout.activity_map);
 
@@ -70,6 +86,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
 
 
@@ -109,9 +126,23 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         myLocationOverlay.enableFollowLocation();
         mapView.getOverlays().add(myLocationOverlay);
 
-
-
+        DBHelper dbHelper = new DBHelper(this);
         AparatActivity aparatActivity = new AparatActivity();
+        LocationModel locationModel = new LocationModel(1, "nie", 20.0, 20.0);
+        dbHelper.dodajLocation(locationModel);
+
+        dbHelper.wyswietlWszystkieLokacje();
+        if(latitudes != null){
+            for(int i=0;i<rozmiar;i++) {
+                latitude1 = latitudes.get(i);
+                longitude1 = longitudes.get(i);
+                aparatActivity.dodajMarker(mapView, latitude1, longitude1);
+            }
+
+        }
+
+
+
         if(aparatActivity.czySkonczone) {
             //myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mapView);
             //myLocationOverlay.enableMyLocation();
@@ -126,7 +157,9 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
             myLocationOverlay.runOnFirstFix(() -> {
                 latitude = myLocationOverlay.getMyLocation().getLatitude();
                 longitude = myLocationOverlay.getMyLocation().getLongitude();
-                aparatActivity.dodajMarker(mapView, latitude, longitude);
+                //locationModel = new LocationModel(1, "pimezka", latitude, longitude);
+                //dbHelper.dodajLocation(locationModel);
+                //aparatActivity.dodajMarker(mapView, latitude, longitude);
             });
 
         }
@@ -190,5 +223,7 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
             super.onBackPressed();
         }
     }
+
+
 
 }
