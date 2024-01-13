@@ -127,13 +127,14 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         mapView.getOverlays().add(myLocationOverlay);
 
         DBHelper dbHelper = new DBHelper(this);
+        int numberOfRecords = dbHelper.getNumberOfRecords();
         AparatActivity aparatActivity = new AparatActivity();
-        LocationModel locationModel = new LocationModel(1, "nie", 20.0, 20.0);
-        dbHelper.dodajLocation(locationModel);
+        //LocationModel locationModel = new LocationModel(1, "tak", 20.0, 20.0);
+        //dbHelper.dodajLocation(locationModel);
 
         dbHelper.wyswietlWszystkieLokacje();
         if(latitudes != null){
-            for(int i=0;i<rozmiar;i++) {
+            for(int i=0;i<numberOfRecords;i++) {
                 latitude1 = latitudes.get(i);
                 longitude1 = longitudes.get(i);
                 aparatActivity.dodajMarker(mapView, latitude1, longitude1);
@@ -157,6 +158,8 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
             myLocationOverlay.runOnFirstFix(() -> {
                 latitude = myLocationOverlay.getMyLocation().getLatitude();
                 longitude = myLocationOverlay.getMyLocation().getLongitude();
+                LocationModel locationModel = new LocationModel(1, "tak", latitude, longitude);
+                dbHelper.dodajLocation(locationModel);
                 //locationModel = new LocationModel(1, "pimezka", latitude, longitude);
                 //dbHelper.dodajLocation(locationModel);
                 //aparatActivity.dodajMarker(mapView, latitude, longitude);

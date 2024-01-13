@@ -158,6 +158,20 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
     }
+    public int getNumberOfRecords() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NAME_LOCATIONS, null);
+        int count = 0;
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            count = cursor.getInt(0);
+            cursor.close();
+        }
+
+        db.close();
+        return count;
+    }
 
 
 }
