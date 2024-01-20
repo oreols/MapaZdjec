@@ -22,8 +22,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String NAZWA = "nazwa";
     public static final String OPIS = "opis";
     public static final String TABLE_NAME_LOCATIONS = "LOCATIONS";
+    public static final String TABLE_NAME_ZDJECIA = "ZDJECIA";
     public static final String _ID_LOC = "_id_loc";
+    public static final String _ID_ZDJ = "_id_zdj";
     public static final String LOCATION_NAME = "location_name";
+    public static final String ZDJECIE_PATH = "zdjecie_path";
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
 
@@ -52,6 +55,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 + LATITUDE + " REAL, "
                 + LONGITUDE + " REAL);";
         db.execSQL(CREATE_TABLE_LOCATIONS);
+        String CREATE_TABLE_ZDJECIA = "create table " + TABLE_NAME_ZDJECIA + "("
+                + _ID_ZDJ + " INTEGER PRIMARY KEY, "
+                + ZDJECIE_PATH + " TEXT NOT NULL);";
+        db.execSQL(CREATE_TABLE_ZDJECIA);
     }
 
     @Override
@@ -59,6 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("DBHelper", "onUpgrade called");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_LOCATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_ZDJECIA);
         onCreate(db);
     }
 
@@ -111,17 +119,14 @@ public class DBHelper extends SQLiteOpenHelper {
         return zwrocListe;
     }
 
-    public boolean dodajLocation(LocationModel locationModel) {
+    public boolean dodajZdjecie(ZdjeciaModel zdjeciaModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(LOCATION_NAME, locationModel.getNazwa());
-        cv.put(LATITUDE, locationModel.getLatitude());
-        cv.put(LONGITUDE, locationModel.getLongitude());
+        cv.put(_ID_ZDJ, zdjeciaModel.getId());
+        cv.put(ZDJECIE_PATH, zdjeciaModel.getSciezkaDoZdjecia());
 
-        Log.d("DBHelper", "Attempting to insert location into the database...");
-
-        long insert = db.insert(TABLE_NAME_LOCATIONS, null, cv);
+        long insert = db.insert(TABLE_NAME_ZDJECIA, null, cv);
 
         if (insert == -1) {
             Log.e("DBHelper", "Error inserting location into the database");
@@ -158,6 +163,27 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
     }
+
+    public boolean dodajLocation(LocationModel locationModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(LOCATION_NAME, locationModel.getNazwa());
+        cv.put(LATITUDE, locationModel.getLatitude());
+        cv.put(LONGITUDE, locationModel.getLongitude());
+
+        Log.d("DBHelper", "Attempting to insert location into the database...");
+
+        long insert = db.insert(TABLE_NAME_LOCATIONS, null, cv);
+
+        if (insert == -1) {
+            Log.e("DBHelper", "Error inserting location into the database");
+            return false;
+        } else {
+            Log.d("DBHelper", "Location inserted successfully");
+            return true;
+        }
+    }
     public int getNumberOfRecords() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NAME_LOCATIONS, null);
@@ -172,6 +198,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return count;
     }
+
+
 
 
 }
