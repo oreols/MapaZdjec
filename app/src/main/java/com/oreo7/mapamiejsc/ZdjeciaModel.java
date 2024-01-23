@@ -29,4 +29,4 @@ public class ZdjeciaModel {
         this.sciezkaDoZdjecia = sciezkaDoZdjecia;
     }
 }
-}
+

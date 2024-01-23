@@ -7,14 +7,6 @@
     tools:context=".MainActivity">
 
     <!-- TextView z tekstem -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Twój tekst tutaj"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:padding="16dp" />
 
     <!-- ListView -->
     <ListView
@@ -28,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
-        android:text="Przycisk" />
+        android:text="Zapisz" />
 
 </LinearLayout>

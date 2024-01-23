@@ -132,6 +132,9 @@ public class MapActivity extends AppCompatActivity implements NavigationView.OnN
         //LocationModel locationModel = new LocationModel(1, "tak", 20.0, 20.0);
         //dbHelper.dodajLocation(locationModel);
 
+        ZdjeciaModel zdjeciaModel = new ZdjeciaModel(1, "xd");
+        dbHelper.dodajZdjecie(zdjeciaModel);
+
         dbHelper.wyswietlWszystkieLokacje();
         if(latitudes != null){
             for(int i=0;i<numberOfRecords;i++) {

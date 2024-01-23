@@ -115,11 +115,11 @@ public class AparatActivity extends AppCompatActivity{
             startCamera(cameraFacing);
         }
         //dodajbtn.setOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View view) {
-                //Intent intent = new Intent(AparatActivity.this, MapActivity.class);
-                //startActivity(intent);
-            //}
+        //@Override
+        //public void onClick(View view) {
+        //Intent intent = new Intent(AparatActivity.this, MapActivity.class);
+        //startActivity(intent);
+        //}
         //});
         flipbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -301,6 +301,9 @@ public class AparatActivity extends AppCompatActivity{
     }
 
 }
+
+
+
 
 
 
